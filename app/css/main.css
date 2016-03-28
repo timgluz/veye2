@@ -1,0 +1,32 @@
+
+body {background-color: white;}
+
+/*menu items*/
+.menu-block.is-active	{background-color: #d3d6db;}
+
+/*colors */
+.grey-darker {background-color: #222324;}
+.grey-dark	{background-color:: #69707a;}
+.grey	{background-color:: #aeb1b5;}
+.grey-light	{background-color: #d3d6db;}
+.grey-lighter	{background-color: #f5f7fa;}
+.blue	{background-color: #42afe3;}
+.green	{background-color: #97cd76;}
+.orange	{background-color: #f68b39;}
+.purple	{background-color: #847bb9;}
+.red	{background-color: #ed6c63;}
+.turquoise	{background-color: #1fc8db;}
+.yellow	{background-color: #fce473;}
+
+.fg-grey-darker   {color: #222324;}
+.fg-grey-dark	    {color: #69707a;}
+.fg-grey	        {color: #aeb1b5;}
+.fg-grey-light	  {color: #d3d6db;}
+.fg-grey-lighter	{color: #f5f7fa;}
+.fg-blue	        {color: #42afe3;}
+.fg-green	        {color: #97cd76;}
+.fg-orange	      {color: #f68b39;}
+.fg-purple	      {color: #847bb9;}
+.fg-red	          {color: #ed6c63;}
+.fg-turquoise	    {color: #1fc8db;}
+.fg-yellow	      {color: #fce473;}
