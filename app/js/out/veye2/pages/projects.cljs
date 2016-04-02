@@ -31,30 +31,60 @@
         [:a {:class "link is-info" :href "#"} "Logout"]]]])
 
 (defn project-list [projects-cur]
-  (let [on-select (fn [ev]
-                    (let [item-el (.closest (.-target ev) "a.menu-block")
+  (let [filter-term (r/atom "")
+        apply-filter (fn [items]
+                       (let [ft filter-term
+                             match? (fn [term project]
+                                      (.includes (:name project) term))]
+                         (if (empty? @ft)
+                           items
+                           (doall
+                             (filter #(match? @ft %) items)))))
+        on-select (fn [ev]
+                    (let [item-el (.closest (.-target ev) "a.panel-block")
                           project-id (.getAttribute item-el "data-id")]
-                      (.debug js/console (str "selected project: " project-id))
-                      (swap! projects-cur assoc :selected project-id)
-                      ))]
+                      (swap! projects-cur assoc :selected project-id)))
+        on-filter-update (fn [ev]
+                           (let [ft filter-term
+                                 v (-> ev .-target .-value str)]
+                              (reset! ft v)))
+        on-filter-reset (fn [ev]
+                          (let [ft filter-term ;;keep the variable in the local context
+                                filter-el (.getElementById
+                                            js/document
+                                            "project-filter-input")]
+                            (reset! ft "")
+                            (set! (.-value filter-el) "")))]
     (fn []
-      [:nav.menu 
-        [:p.menu-heading "Projects: " (count (:items @projects-cur))]
-        (for [project (:items @projects-cur)]
-          ^{:key (:id project)}
-            [:a {:href "#"
-                 :class (str "menu-block "
-                             (when (= (:selected @projects-cur)
-                                      (:id project))
-                               "is-active"))
-                 :data-id (:id project)
-                 :on-click on-select}
-              [:span.menu-icon
-                [:i {:class (str "fg-green " (project-icon (:project_type project)))}]]
-              (:name project)])
-        [:div.menu-block
-          [:button {:class "button is-primary is-outlined is-fullwidth"}
-            "Reload"]]])))
+      (let [filtered-projects (apply-filter (:items @projects-cur))]
+        [:nav.panel 
+          [:p.panel-heading "Projects: " (count filtered-projects)]
+          [:p {:class "control has-addons"}
+            [:input {:id "project-filter-input"
+                     :class "input project-filter"
+                     :type "text"
+                     :placeholder "Filter projects"
+                     :default-value (str @filter-term)
+                     :on-change on-filter-update}]
+            [:a {:class "button is-primary"
+                 :on-click on-filter-reset
+                 :title "Clear the filter"}
+              [:i {:class "fa fa-remove"}]]]
+          (for [project filtered-projects]
+            ^{:key (:id project)}
+              [:a {:href "#"
+                   :class (str "panel-block "
+                               (when (= (:selected @projects-cur)
+                                        (:id project))
+                                 "is-active"))
+                   :data-id (:id project)
+                   :on-click on-select}
+                [:span.menu-icon
+                  [:i {:class (str "fg-green " (project-icon (:project_type project)))}]]
+                (:name project)])
+          [:div.menu-block
+            [:button {:class "button is-primary is-outlined is-fullwidth"}
+              "Reload"]]]))))
 
 (defn project-dependency-table
   [the-project]
