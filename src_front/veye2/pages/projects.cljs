@@ -45,8 +45,11 @@
                        (let [ft filter-term
                              match? (fn [term project]
                                       (or
-                                        (.includes (:name project) term)
-                                        (.includes (:project_type project) term)))]
+                                        (-> project :name string/lower-case (.includes term))
+                                        (-> project
+                                            :project_type
+                                            string/lower-case
+                                            (.includes term))))]
                          (if (empty? @ft)
                            items
                            (doall
@@ -161,8 +164,68 @@
             [:p.title (:licenses_red the-project)]]] 
         [(project-dependency-table the-project)]])))
 
+(defn project-summary-tile [db]
+  [:div {:class "card is-half"}
+    [:header {:class "card-header"}
+      [:p {:class "card-header-title"}
+        "Projects summary"]]
+    [:div.card-content
+      [:div.content
+        [:ul
+          [:li [:strong "Projects:"] "10"]
+          [:li [:strong "Dependencies:"] 100]
+          [:li [:strong "Outdated:"] "30"]]]]])
+
+(defn project-cache-tile [db]
+  [:div {:class "card"}
+    [:header {:class "card-header"}
+      [:p {:class "card-header-title"} "Sync details"]
+      [:a {:class "card-header-icon"}
+        [:i {:class "fa fa-refresh"
+             :title "Pull latest details from the VersionEye"}]]]
+    [:div.card-content
+      [:div.content
+        "Project info are cached to minimize communication "
+        " and bla-bla"
+        [:br]
+        "Cache was sync last: "
+        "X times ago"]]
+    [:footer.card-footer
+      [:a {:class "card-footer-item"}
+        [:i {:class "fa fa-refresh"}]
+        [:span "re-import projects"]]]])
+
+(defn project-license-tile [db]
+  [:div {:class "card is-half"}
+    [:header {:class "card-header"}
+      [:p {:class "card-header-title"}
+        "Licenses overview"]]
+    [:div.card-content
+      [:div.content
+        [:ul
+          [:li [:strong "Total:"] "100"]
+          [:li [:strong "In red:"] 1]
+          [:li [:strong "In whitelist:"] "30"]]]]])
+
 (defn project-home [db]
-  [:p "Click on the project"])
+  [:div.container
+    [:div.content
+      [:header.title "Projects dashboard"]
+      [:p "Here you can manage your and your organization projects."
+          [:br]
+          ""]]
+    [:div {:class "columns is-multiline"}
+      [:div {:class "column is-half"}
+        [project-summary-tile db]]
+      [:div {:class "column is-half"}
+        [project-cache-tile db]]
+      [:div {:class "column is-half"}
+        [project-license-tile db]]
+      [:div {:class "column is-half"}
+        [:button {:class "button is-outline is-large is-info"}
+          [:span.icon [:i {:class "fa fa-file-code-o"}]]
+          "Upload from file"]]
+    ]])
 
 (defn render [db]
   (let [projects-cur (cursor db [:projects])]
