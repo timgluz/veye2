@@ -1,6 +1,7 @@
 (ns veye2.pages.projects
   (:require [reagent.core :as r :refer [atom cursor]]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [veye2.actions.projects :refer [sync-projects!]]))
 
 (defn project-icon [lang]
   (case (string/lower-case lang)
@@ -37,7 +38,7 @@
                              match? (fn [term project]
                                       (or
                                         (.includes (:name project) term)
-                                        (.includes (:project_type) term)))]
+                                        (.includes (:project_type project) term)))]
                          (if (empty? @ft)
                            items
                            (doall
@@ -83,10 +84,7 @@
                    :on-click on-select}
                 [:span.menu-icon
                   [:i {:class (str "fg-green " (project-icon (:project_type project)))}]]
-                (:name project)])
-          [:div.menu-block
-            [:button {:class "button is-primary is-outlined is-fullwidth"}
-              "Reload"]]]))))
+                (:name project)])]))))
 
 (defn project-dependency-table
   [the-project]
@@ -119,28 +117,44 @@
 (defn project-detail [projects-cur]
   (fn []
     (let [selected-id (:selected @projects-cur)
-          the-project (get-in @projects-cur [:details selected-id])] 
+          the-project (get-in @projects-cur [:details selected-id])
+          n-outdated (count
+                       (filter (fn [x] (true? (:outdated x)))
+                               (:dependencies the-project)))
+          on-close (fn [ev]
+                     (swap! projects-cur assoc :selected nil))] 
       [:section
+        [:span {:class "pull-right"}
+            [:a {:class "button is-success is-outlined"
+                 :on-click on-close}
+              [:span.icon
+                [:i {:class "fa fa-times"}]]
+              [:span "close"]]]
         [:div.heading
           [:h1.title
-           [:i {:class (str "fg-blue " (project-icon (:project_type the-project)))}]
            (:name the-project)
            [:small (str "(id: " (:id the-project) ")")]]]
         [:nav.navbar {:style {"backgroundColor" "floralwhite"}}
           [:div {:class "navbar-item is-text-centered"}
-            [:p.heading "Source"]
+            [:p.heading "PkgManager"]
             [:p.title
-               (:source the-project)]]
-          [:div {:class "navbar-item is-text-centered"}
-            [:p.heading "Visibility"]
-            [:p.title (if (true? (:public the-project)) "public" "private")]]
+               [:i {:class (str "fg-green "
+                                (project-icon (:project_type the-project)))
+                    :title (:project_type the-project)}]]]
+          
           [:div {:class "navbar-item is-text-centered"}
             [:p.heading "Dependencies"]
             [:p.title (:dep_number the-project)]]
           [:div {:class "navbar-item is-text-centered"}
+            [:p.heading "Outdated"]
+            [:p.title n-outdated]]
+          [:div {:class "navbar-item is-text-centered"}
             [:p.heading "License:Conflict"]
             [:p.title (:licenses_red the-project)]]] 
         [(project-dependency-table the-project)]])))
+
+(defn project-home [db]
+  [:p "Click on the project"])
 
 (defn render [db]
   (let [projects-cur (cursor db [:projects])]
@@ -153,7 +167,7 @@
               [project-list projects-cur]]
             [:div {:class "column is-auto"}
               (if (nil? (:selected @projects-cur))
-                [:p  "Click on the project"]
+                [project-home db]
                 [project-detail projects-cur])]]]])))
 
 

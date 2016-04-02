@@ -4359,3 +4359,107 @@ notifying browser that file changed:  /veye2/pages/projects.js
 [0mCompiling "app/js/front.js" from ["src_front"]...
 [32mSuccessfully compiled "app/js/front.js" in 0.254 seconds.[0m
 notifying browser that file changed:  /veye2/pages/projects.js
+Figwheel: focusing on build-ids (frontend)
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.146 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  app/js/out/goog/deps.js
+notifying browser that file changed:  /veye2/pages/projects.js
+notifying browser that file changed:  /veye2/actions/projects.js
+notifying browser that file changed:  /veye2/pages/login.js
+notifying browser that file changed:  /veye2/core.js
+notifying browser that file changed:  /veye2/api.js
+notifying browser that file changed:  /veye2/pages/syncing.js
+notifying browser that file changed:  /veye2/utils.js
+notifying browser that file changed:  /veye2/storage.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.278 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.265 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.274 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.279 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.288 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.265 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.262 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.262 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.265 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.255 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+WARNING: Use of undeclared Var veye2.pages.projects/project at line 137 src_front/veye2/pages/projects.cljs
+[32mSuccessfully compiled "app/js/front.js" in 0.322 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+WARNING: Use of undeclared Var veye2.pages.projects/project at line 137 src_front/veye2/pages/projects.cljs
+[32mSuccessfully compiled "app/js/front.js" in 0.357 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.266 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.301 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.264 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.304 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.255 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.256 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.312 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.338 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.261 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.358 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.359 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.262 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.118 seconds.[0m
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.306 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.253 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  /veye2/pages/projects.js

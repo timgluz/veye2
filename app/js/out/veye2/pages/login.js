@@ -4,33 +4,7 @@ goog.require('cljs.core');
 goog.require('reagent.core');
 goog.require('secretary.core');
 goog.require('veye2.storage');
-goog.require('veye2.api');
-goog.require('veye2.utils');
-veye2.pages.login.sync_projects_BANG_ = (function veye2$pages$login$sync_projects_BANG_(db){
-var api_key = cljs.core.get_in.call(null,cljs.core.deref.call(null,db),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"session","session",1008279103),new cljs.core.Keyword(null,"api-key","api-key",1037904031)], null));
-var on_sync_end = ((function (api_key){
-return (function (project_db){
-cljs.core.swap_BANG_.call(null,db,cljs.core.assoc,new cljs.core.Keyword(null,"projects","projects",-364845983),project_db);
-
-veye2.storage.set_key_BANG_.call(null,[cljs.core.str("projects-"),cljs.core.str(api_key)].join(''),project_db);
-
-return secretary.core.dispatch_BANG_.call(null,"/home");
-});})(api_key))
-;
-var on_sync_fail = ((function (api_key,on_sync_end){
-return (function (error){
-return secretary.core.dispatch_BANG_.call(null,"/");
-});})(api_key,on_sync_end))
-;
-var on_sync_step = ((function (api_key,on_sync_end,on_sync_fail){
-return (function (step_event){
-var new_msg = cljs.core.assoc.call(null,step_event,new cljs.core.Keyword(null,"timestamp","timestamp",579478971),veye2.utils.current_ms.call(null));
-var old_msgs = cljs.core.take.call(null,(9),new cljs.core.Keyword(null,"progress","progress",244323547).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,db)));
-return cljs.core.swap_BANG_.call(null,db,cljs.core.assoc,new cljs.core.Keyword(null,"progress","progress",244323547),cljs.core.cons.call(null,new_msg,old_msgs));
-});})(api_key,on_sync_end,on_sync_fail))
-;
-return veye2.api.sync_all.call(null,api_key,on_sync_end,on_sync_fail,on_sync_step);
-});
+goog.require('veye2.actions.projects');
 veye2.pages.login.login_form = (function veye2$pages$login$login_form(db){
 var session_cur = reagent.core.cursor.call(null,db,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"session","session",1008279103)], null));
 var update_key = ((function (session_cur){
@@ -52,7 +26,7 @@ cljs.core.swap_BANG_.call(null,db,cljs.core.assoc,new cljs.core.Keyword(null,"pr
 
 return secretary.core.dispatch_BANG_.call(null,"/home");
 } else {
-veye2.pages.login.sync_projects_BANG_.call(null,db);
+veye2.actions.projects.sync_projects_BANG_.call(null,db);
 
 return secretary.core.dispatch_BANG_.call(null,"/syncing");
 }
