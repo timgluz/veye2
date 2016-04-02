@@ -3880,3 +3880,15 @@ notifying browser that file changed:  /veye2/pages/projects.js
 [32mSuccessfully compiled "app/js/front.js" in 0.271 seconds.[0m
 notifying browser that file changed:  app/js/front.js
 notifying browser that file changed:  /veye2/pages/projects.js
+Figwheel: focusing on build-ids (frontend)
+[0mCompiling "app/js/front.js" from ["src_front"]...
+[32mSuccessfully compiled "app/js/front.js" in 0.152 seconds.[0m
+notifying browser that file changed:  app/js/front.js
+notifying browser that file changed:  app/js/out/goog/deps.js
+notifying browser that file changed:  /veye2/pages/projects.js
+notifying browser that file changed:  /veye2/pages/login.js
+notifying browser that file changed:  /veye2/core.js
+notifying browser that file changed:  /veye2/api.js
+notifying browser that file changed:  /veye2/pages/syncing.js
+notifying browser that file changed:  /veye2/utils.js
+notifying browser that file changed:  /veye2/storage.js
