@@ -24,12 +24,20 @@
         [:p {:class "subtitle is-5"} "Veye/2"]]]
 
     [:div.navbar-right
-      [:p {:class "navbar-item"}
-        [:a {:class "link is-info" :href "#"} "My projects |"]]
-      [:p {:class "navbar-item"}
-        [:a {:class "link is-info" :href "#"} "Search |"]] 
-      [:p {:class "navbar-item"}
-        [:a {:class "link is-info" :href "#"} "Logout"]]]])
+      [:div.tabs
+        [:ul
+          [:li {:class "navbar-item"}
+            [:a {:class "link is-info" :href "#"}
+              [:i {:class "fa fa-eye-slash"}]
+              "My projects"]]
+          [:li {:class "navbar-item"}
+            [:a {:class "link is-info" :href "#"}
+              [:i {:class "fa fa-search"}]
+              "Search"]] 
+          [:li {:class "navbar-item"}
+            [:a {:class "link is-info" :href "#"}
+              [:I {:class "fa fa-power-off"}]
+              "Logout"]]]]]])
 
 (defn project-list [projects-cur]
   (let [filter-term (r/atom "")
