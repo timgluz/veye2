@@ -21,7 +21,11 @@
   [:nav.navbar
     [:div.navbar-left
       [:div.navbar-item
-        [:p {:class "subtitle is-5"} "Veye/2"]]]
+        [:p {:class "subtitle is-5"}
+          [:img {:class "image is-32x32"
+                 :src "images/logo-small.png"}]]]
+      [:div.navbar-item
+        [:p {:class "is-text-centered"} "Veye/2"]]]
 
     [:div.navbar-right
       [:div.tabs
@@ -165,67 +169,93 @@
         [(project-dependency-table the-project)]])))
 
 (defn project-summary-tile [db]
-  [:div {:class "card is-half"}
-    [:header {:class "card-header"}
-      [:p {:class "card-header-title"}
-        "Projects summary"]]
-    [:div.card-content
-      [:div.content
-        [:ul
-          [:li [:strong "Projects:"] "10"]
-          [:li [:strong "Dependencies:"] 100]
-          [:li [:strong "Outdated:"] "30"]]]]])
+  (let [projects (get-in @db [:projects :details])
+        n-projects (count projects)
+        n-deps (->> projects
+                  (map (fn [[id p]] (-> p :dependencies count)))
+                  (apply +))
+        n-outdated (->> projects
+                        (map (fn [[id p]] (:dependencies p)))
+                        (flatten)
+                        (map (fn [dep] (:outdated dep)))
+                        (filter true?)
+                        (count))]
+    (fn []
+      [:div {:class "card is-half"}
+        [:header {:class "card-header"}
+          [:p {:class "card-header-title"}
+            "Projects summary"]]
+        [:div.card-content
+          [:div.content
+            [:ul
+              [:li [:strong "Projects: "] (or n-projects "-")]
+              [:li [:strong "Dependencies: "] (or n-deps "-")]
+              [:li [:strong "Outdated: "] (or n-outdated "-")]]]]])))
 
 (defn project-cache-tile [db]
-  [:div {:class "card"}
-    [:header {:class "card-header"}
-      [:p {:class "card-header-title"} "Sync details"]
-      [:a {:class "card-header-icon"}
-        [:i {:class "fa fa-refresh"
-             :title "Pull latest details from the VersionEye"}]]]
-    [:div.card-content
-      [:div.content
-        "Project info are cached to minimize communication "
-        " and bla-bla"
-        [:br]
-        "Cache was sync last: "
-        "X times ago"]]
-    [:footer.card-footer
-      [:a {:class "card-footer-item"}
-        [:i {:class "fa fa-refresh"}]
-        [:span "re-import projects"]]]])
+  (let [from-time (get-in @db [:projects :updated_at] 0)
+        time-ago (.fromNow (js/moment from-time))]
+    (fn []
+      [:div {:class "card"}
+        [:header {:class "card-header"}
+          [:p {:class "card-header-title"} "Sync details"]
+          [:a {:class "card-header-icon"}
+            [:i {:class "fa fa-refresh"
+                 :title "Pull latest details from the VersionEye"}]]]
+        [:div.card-content
+          [:div.content
+            "Cache was updated: " [:br]
+            (str time-ago)]]
+        [:footer.card-footer
+          [:a {:class "card-footer-item"}
+            [:i {:class "fa fa-refresh"}]
+            [:span "re-import projects"]]]])))
 
 (defn project-license-tile [db]
-  [:div {:class "card is-half"}
-    [:header {:class "card-header"}
-      [:p {:class "card-header-title"}
-        "Licenses overview"]]
-    [:div.card-content
-      [:div.content
-        [:ul
-          [:li [:strong "Total:"] "100"]
-          [:li [:strong "In red:"] 1]
-          [:li [:strong "In whitelist:"] "30"]]]]])
+  (let [projects (vals (get-in @db [:projects :details]))
+        n-unknown (->> projects
+                      (map :licenses_unknown)  
+                      (reduce + 0))
+        n-red (->> projects
+                   (map :licenses_red)
+                   (reduce + 0))
+        n-whitelist (->> projects
+                         (map :license_whitelist)
+                         (remove empty?)
+                         (count))]
+    (fn []
+      [:div {:class "card is-half"}
+        [:header {:class "card-header"}
+          [:p {:class "card-header-title"}
+            "Licenses overview"]]
+        [:div.card-content
+          [:div.content
+            [:ul
+              [:li [:strong "Unknown:  "] (or n-unknown "-")]
+              [:li [:strong "In red: "] (or n-red "-")]
+              [:li [:strong "In whitelist: "] (or n-whitelist "-")]]]]])))
 
 (defn project-home [db]
-  [:div.container
-    [:div.content
-      [:header.title "Projects dashboard"]
-      [:p "Here you can manage your and your organization projects."
-          [:br]
-          ""]]
-    [:div {:class "columns is-multiline"}
-      [:div {:class "column is-half"}
-        [project-summary-tile db]]
-      [:div {:class "column is-half"}
-        [project-cache-tile db]]
-      [:div {:class "column is-half"}
-        [project-license-tile db]]
-      [:div {:class "column is-half"}
-        [:button {:class "button is-outline is-large is-info"}
-          [:span.icon [:i {:class "fa fa-file-code-o"}]]
-          "Upload from file"]]
-    ]])
+  (fn []
+    [:div.container
+      [:div.content
+        [:header.title "Projects dashboard"]
+        [:p "Here you can manage your and your organization projects."
+            [:br]
+            ""]]
+      [:div {:class "columns is-multiline"}
+        [:div {:class "column is-half"}
+          [project-summary-tile db]]
+        [:div {:class "column is-half"}
+          [project-license-tile db]]
+
+        [:div {:class "column is-half"}
+          [project-cache-tile db]] 
+        [:div {:class "column is-half"}
+          [:button {:class "button is-outline is-large is-info"}
+            [:span.icon [:i {:class "fa fa-file-code-o"}]]
+            "Upload from file"]]
+      ]]))
 
 (defn render [db]
   (let [projects-cur (cursor db [:projects])]

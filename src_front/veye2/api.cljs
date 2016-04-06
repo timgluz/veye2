@@ -17,7 +17,7 @@
         :handler success-fn
         :error-handler error-fn}))
 
-(defn fetch-project-by-id
+(defn fetch-project-by-id(* from-time 1000)
   [api-key project-id success-fn error-fn]
   (GET (str api-url "/projects/" project-id)
        {:params {:api_key api-key}
@@ -32,7 +32,7 @@
 (defn sync-all
   [api-key on-success on-failure on-step]
   (let [api-db (atom {:selected nil
-                      :synced-at nil
+                      :synced-at (.valueOf (js/moment))
                       :items []
                       :details {}})
         done? (fn [state]

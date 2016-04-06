@@ -23,7 +23,8 @@
                    :api-key nil}
          :projects {:selected nil
                     :items []
-                    :details {}}
+                    :details {}
+                    :synced-at 0}
          :progress [{:timestamp (current-ms)
                      :from "main"
                      :message "Going to pull latest data from the API"}]}))
