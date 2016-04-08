@@ -1,7 +1,9 @@
 (ns veye2.pages.projects
-  (:require [reagent.core :as r :refer [atom cursor]]
+  (:require [reagent.core :as r :refer [cursor]]
+            [secretary.core :as secretary]
             [clojure.string :as string]
-            [veye2.actions.projects :refer [sync-projects!]]))
+            [veye2.actions.projects :refer [sync-projects!]]
+            [veye2.pages.shared.navbars :refer [navbar]]))
 
 (defn project-icon [lang]
   (case (string/lower-case lang)
@@ -16,32 +18,6 @@
     "gradle"    "icon-gradle"
     "biicode"   "icon-cplusplus"
     :else "icon-script"))
-
-(defn navbar []
-  [:nav.navbar
-    [:div.navbar-left
-      [:div.navbar-item
-        [:p {:class "subtitle is-5"}
-          [:img {:class "image is-32x32"
-                 :src "images/logo-small.png"}]]]
-      [:div.navbar-item
-        [:p {:class "is-text-centered"} "Veye/2"]]]
-
-    [:div.navbar-right
-      [:div.tabs
-        [:ul
-          [:li {:class "navbar-item"}
-            [:a {:class "link is-info" :href "#"}
-              [:i {:class "fa fa-eye-slash"}]
-              "My projects"]]
-          [:li {:class "navbar-item"}
-            [:a {:class "link is-info" :href "#"}
-              [:i {:class "fa fa-search"}]
-              "Search"]] 
-          [:li {:class "navbar-item"}
-            [:a {:class "link is-info" :href "#"}
-              [:I {:class "fa fa-power-off"}]
-              "Logout"]]]]]])
 
 (defn project-list [projects-cur]
   (let [filter-term (r/atom "")
@@ -252,10 +228,10 @@
         [:div {:class "column is-half"}
           [project-cache-tile db]] 
         [:div {:class "column is-half"}
-          [:button {:class "button is-outline is-large is-info"}
+          [:button {:class "button is-outline is-large is-info"
+                    :on-click #(secretary/dispatch! "/upload")}
             [:span.icon [:i {:class "fa fa-file-code-o"}]]
-            "Upload from file"]]
-      ]]))
+            "Upload from file"]]]]))
 
 (defn render [db]
   (let [projects-cur (cursor db [:projects])]

@@ -3,12 +3,12 @@
             [reagent.core :as reagent :refer [atom cursor]]
             [reagent.session :as session]
             [secretary.core :as secretary :refer-macros [defroute]]
-            [reagent.session :as session]
             [goog.events :as events]
             [goog.history.EventType :as HistoryEventType]
             [veye2.pages.projects :as projects-page]
             [veye2.pages.login :as login-page]
             [veye2.pages.syncing :as syncing-page]
+            [veye2.pages.upload :as upload-page]
             [veye2.utils :refer [current-ms]])
   (:import goog.History))
 
@@ -37,6 +37,9 @@
 
 (defroute "/home" []  
   (session/put! :current-page (projects-page/render db)))
+
+(defroute "/upload" []
+  (session/put! :current-page (upload-page/render db)))
 
 ;(defroute "*" []
 ;  (js/alert "Not implemented"))

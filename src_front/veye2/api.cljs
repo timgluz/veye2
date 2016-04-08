@@ -17,7 +17,7 @@
         :handler success-fn
         :error-handler error-fn}))
 
-(defn fetch-project-by-id(* from-time 1000)
+(defn fetch-project-by-id
   [api-key project-id success-fn error-fn]
   (GET (str api-url "/projects/" project-id)
        {:params {:api_key api-key}
