@@ -55,5 +55,9 @@
       [:section.footer
         [:div.container
           [:div {:class "content is-centered"}
-            [:span [:i {:class "fa fa-github"}]]]]]]))
+            [:a {:href "https://github.com/timgluz/veye2"
+                 :target "_blank"
+                 :title "Opensource project on the Github"}
+              [:span {:class "icon is-medium pull-right"}
+               [:i {:class "fa fa-github"}]]]]]]]))
 

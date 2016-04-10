@@ -8,14 +8,14 @@
   (let [cached-users (or (storage/get-key "users") {})
         on-login-success (fn [user-profile]
                            (let [cached-projects (storage/get-key
-                                                   (str "projects-" the-api-key))]
-                             (js/alert (str "APIkey: " the-api-key))
+                                                   (str "projects-" the-api-key))
+                                 updated-users (assoc cached-users the-api-key user-profile)]
                              (swap! db assoc
                                     :session {:active? true
                                               :api-key the-api-key}
-                                    :projects (or cached-projects {}))
-                             (storage/set-key!
-                               "users" (assoc cached-users the-api-key user-profile))
+                                    :projects (or cached-projects {})
+                                    :users updated-users)
+                             (storage/set-key! "users" updated-users)
                              (secretary/dispatch! "/home")))
         on-login-failure (fn [error]
                            (swap! db assoc-in [:session :message] "Wrong API key"))]

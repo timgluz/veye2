@@ -217,6 +217,25 @@
               [:li [:strong "In red: "] (or n-red "-")]
               [:li [:strong "In whitelist: "] (or n-whitelist "-")]]]]])))
 
+(defn session-tile [db]
+  (let [the-api-token (get-in @db [:session :api-key])
+        user-dt (get-in @db [:users the-api-token])]
+    (fn []
+      [:div {:class "card is-half"}
+        [:header {:class "card-header"}
+          [:p {:class "card-header-title"}
+            "Current session"]]
+        [:div.card-content
+          [:div.content
+            [:ul
+              [:li [:strong "Name: "] (:fullname user-dt)]
+              [:li
+                [:strong "New notifications:"]
+                (get-in user-dt [:notifications :new] 0)]
+              [:li
+                [:strong "Total notifications:"]
+                (get-in user-dt [:notifications :total] 0)]]]]])))
+
 (defn project-home [db]
   (fn []
     [:div.container
@@ -234,10 +253,7 @@
         [:div {:class "column is-half"}
           [project-cache-tile db]] 
         [:div {:class "column is-half"}
-          [:button {:class "button is-outline is-large is-info"
-                    :on-click #(secretary/dispatch! "/upload")}
-            [:span.icon [:i {:class "fa fa-file-code-o"}]]
-            "Upload from file"]]]]))
+          [session-tile db]]]]))
 
 (defn render [db]
   (let [projects-cur (cursor db [:projects])]

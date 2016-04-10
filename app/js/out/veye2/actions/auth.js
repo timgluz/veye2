@@ -15,17 +15,16 @@ return cljs.core.PersistentArrayMap.EMPTY;
 var on_login_success = ((function (cached_users){
 return (function (user_profile){
 var cached_projects = veye2.storage.get_key.call(null,[cljs.core.str("projects-"),cljs.core.str(the_api_key)].join(''));
-alert([cljs.core.str("APIkey: "),cljs.core.str(the_api_key)].join(''));
-
+var updated_users = cljs.core.assoc.call(null,cached_users,the_api_key,user_profile);
 cljs.core.swap_BANG_.call(null,db,cljs.core.assoc,new cljs.core.Keyword(null,"session","session",1008279103),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"active?","active?",459499776),true,new cljs.core.Keyword(null,"api-key","api-key",1037904031),the_api_key], null),new cljs.core.Keyword(null,"projects","projects",-364845983),(function (){var or__16566__auto__ = cached_projects;
 if(cljs.core.truth_(or__16566__auto__)){
 return or__16566__auto__;
 } else {
 return cljs.core.PersistentArrayMap.EMPTY;
 }
-})());
+})(),new cljs.core.Keyword(null,"users","users",-713552705),updated_users);
 
-veye2.storage.set_key_BANG_.call(null,"users",cljs.core.assoc.call(null,cached_users,the_api_key,user_profile));
+veye2.storage.set_key_BANG_.call(null,"users",updated_users);
 
 return secretary.core.dispatch_BANG_.call(null,"/home");
 });})(cached_users))
