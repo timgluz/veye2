@@ -41,7 +41,7 @@ goog.addDependency("../secretary/core.js", ['secretary.core'], ['cljs.core', 'cl
 goog.addDependency("../veye2/utils.js", ['veye2.utils'], ['cljs.core', 'clojure.string']);
 goog.addDependency("../veye2/storage.js", ['veye2.storage'], ['cljs.core', 'cljs.reader']);
 goog.addDependency("../veye2/actions/projects.js", ['veye2.actions.projects'], ['cljs.core', 'secretary.core', 'veye2.api', 'veye2.utils', 'veye2.storage']);
-goog.addDependency("../veye2/pages/shared/navbars.js", ['veye2.pages.shared.navbars'], ['reagent.core', 'cljs.core']);
+goog.addDependency("../veye2/pages/shared/navbars.js", ['veye2.pages.shared.navbars'], ['reagent.core', 'cljs.core', 'secretary.core']);
 goog.addDependency("../veye2/pages/projects.js", ['veye2.pages.projects'], ['reagent.core', 'cljs.core', 'veye2.actions.projects', 'secretary.core', 'veye2.pages.shared.navbars', 'clojure.string', 'veye2.utils']);
 goog.addDependency("../clojure/set.js", ['clojure.set'], ['cljs.core']);
 goog.addDependency("../figwheel/client/file_reloading.js", ['figwheel.client.file_reloading'], ['goog.string', 'goog.net.jsloader', 'goog.Uri', 'cljs.core', 'goog.object', 'cljs.core.async', 'clojure.set', 'figwheel.client.utils', 'clojure.string']);

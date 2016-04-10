@@ -171,7 +171,7 @@
               [:li [:strong "Outdated: "] (or n-outdated "-")]]]]])))
 
 (defn project-cache-tile [db]
-  (let [from-time (get-in @db [:projects :updated_at] 0)]
+  (let [from-time (get-in @db [:projects :synced-at] 0)]
     (fn []
       [:div {:class "card"}
         [:header {:class "card-header"}
@@ -186,7 +186,10 @@
               (str (time-ago from-time))
               "not yet, but soon")]]
         [:footer.card-footer
-          [:a {:class "card-footer-item"}
+          [:a {:class "card-footer-item"
+               :on-click (fn [ev]
+                           (sync-projects! db)
+                           (secretary/dispatch! "/syncing"))}
             [:i {:class "fa fa-refresh"}]
             [:span "re-import projects"]]]])))
 
@@ -249,5 +252,4 @@
               (if (nil? (:selected @projects-cur))
                 [project-home db]
                 [project-detail projects-cur])]]]])))
-
 

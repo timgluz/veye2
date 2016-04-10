@@ -1,5 +1,6 @@
 (ns veye2.pages.shared.navbars
-  (:require [reagent.core :as r :refer [cursor]]))
+  (:require [reagent.core :as r :refer [cursor]]
+            [secretary.core :as secretary]))
 
 (defn navbar []
   [:nav.navbar
@@ -15,14 +16,21 @@
       [:div.tabs
         [:ul
           [:li {:class "navbar-item"}
-            [:a {:class "link is-info" :href "#"}
+            [:a {:class "link is-info"
+                 :on-click #(secretary/dispatch! "/home")}
               [:i {:class "fa fa-eye-slash"}]
               "My projects"]]
+          [:li {:class "navbar-item"}
+            [:a {:class "link is-info"
+                 :on-click #(secretary/dispatch! "/upload")}
+              [:i {:class "fa fa-upload"}]
+              "Upload project"]]
           [:li {:class "navbar-item"}
             [:a {:class "link is-info" :href "#"}
               [:i {:class "fa fa-search"}]
               "Search"]] 
           [:li {:class "navbar-item"}
-            [:a {:class "link is-info" :href "#"}
-              [:I {:class "fa fa-power-off"}]
+            [:a {:class "link is-info"
+                 :on-click #(secretary/dispatch! "/")}
+              [:i {:class "fa fa-power-off"}]
               "Logout"]]]]]])
