@@ -9,3 +9,6 @@
   (let [current-dt (js/Date.)]
     (.floor js/Math
       (/ (.getTime current-dt) 1000))))
+
+(defn time-ago [from-time]
+  (.fromNow (js/moment from-time)))

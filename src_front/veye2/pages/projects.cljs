@@ -3,7 +3,8 @@
             [secretary.core :as secretary]
             [clojure.string :as string]
             [veye2.actions.projects :refer [sync-projects!]]
-            [veye2.pages.shared.navbars :refer [navbar]]))
+            [veye2.pages.shared.navbars :refer [navbar]]
+            [veye2.utils :refer [time-ago]]))
 
 (defn project-icon [lang]
   (case (string/lower-case lang)
@@ -65,7 +66,8 @@
                  :title "Clear the filter"}
               [:i {:class "fa fa-remove"}]]]
           (for [project filtered-projects]
-            ^{:key (:id project)}
+            (when-not (empty? (:id project))
+              ^{:key (:id project)}
               [:a {:href "#"
                    :class (str "panel-block "
                                (when (= (:selected @projects-cur)
@@ -75,7 +77,7 @@
                    :on-click on-select}
                 [:span.menu-icon
                   [:i {:class (str "fg-green " (project-icon (:project_type project)))}]]
-                (:name project)])]))))
+                (:name project)]))]))))
 
 (defn project-dependency-table
   [the-project]
@@ -169,8 +171,7 @@
               [:li [:strong "Outdated: "] (or n-outdated "-")]]]]])))
 
 (defn project-cache-tile [db]
-  (let [from-time (get-in @db [:projects :updated_at] 0)
-        time-ago (.fromNow (js/moment from-time))]
+  (let [from-time (get-in @db [:projects :updated_at] 0)]
     (fn []
       [:div {:class "card"}
         [:header {:class "card-header"}
@@ -181,7 +182,9 @@
         [:div.card-content
           [:div.content
             "Cache was updated: " [:br]
-            (str time-ago)]]
+            (if (pos? from-time)
+              (str (time-ago from-time))
+              "not yet, but soon")]]
         [:footer.card-footer
           [:a {:class "card-footer-item"}
             [:i {:class "fa fa-refresh"}]

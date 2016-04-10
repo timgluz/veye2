@@ -24,6 +24,7 @@
          :projects {:selected nil
                     :items []
                     :details {}
+                    :uploads [] ;to keep track of uploaded files
                     :synced-at 0}
          :progress [{:timestamp (current-ms)
                      :from "main"

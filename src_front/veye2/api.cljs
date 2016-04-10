@@ -6,6 +6,8 @@
             [cljs.core.async :as csp]))
 
 (def api-url "https://www.versioneye.com/api/v2")
+(defn clj->json [clj-dt]
+  (.stringify js/JSON (clj->js clj-dt)))
 
 (defn fetch-projects
   "pulls list of projects from the VersionEye API"
@@ -26,8 +28,32 @@
         :handler success-fn
         :error-handler error-fn}))
 
-(defn clj->json [clj-dt]
-  (.stringify js/JSON (clj->js clj-dt)))
+(defn ->form-data
+  [upload-dt]
+  (let [form-dt (js/FormData.)]
+    (doseq [[field data] upload-dt]
+      (.append form-dt (name field) data))
+    form-dt))
+
+(defn create-from-file
+  [upload-dt api-key on-success on-failure]
+  (POST (str api-url "/projects?api_key=" api-key)
+        {:params {:api_key api-key}
+         :response-format :json
+         :keywords? true ;JSON-fields will be Clojure keywords
+         :body (->form-data upload-dt)
+         :handler on-success 
+         :error-handler on-failure}))
+
+(defn update-from-file
+  [upload-dt project-id api-key on-success on-failure]
+  (POST (str api-url "/projects/" project-id "?api_key=" api-key)
+        {:params {:api_key api-key}
+         :response-format :json
+         :keywords? true
+         :body (->form-data upload-dt)
+         :handler on-success
+         :error-handler on-failure}))
 
 (defn sync-all
   [api-key on-success on-failure on-step]
@@ -108,5 +134,6 @@
         (on-step ev)
         (if (done? @api-db) 
           (on-success @api-db)
-          (recur))))
-    ))
+          (recur))))))
+
+

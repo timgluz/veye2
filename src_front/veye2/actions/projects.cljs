@@ -26,3 +26,37 @@
                   on-sync-end
                   on-sync-fail
                   on-sync-step)))
+
+
+(defn upload-project!
+  "creates a new project by uploading project file"
+  [db upload-dt]
+  (let [api-key (get-in @db [:session :api-key])
+        on-success (fn [res]
+                     (let [project-dt res]
+                      (.log js/console "Project-id: " (:id project-dt))
+                       
+                      (swap! db assoc-in [:projects :details (:id project-dt)] project-dt)
+                      (swap! db assoc-in [:projects :uploads]
+                             (cons
+                               (assoc upload-dt
+                                      :project-id (:id project-dt)
+                                      :uploaded-at (current-ms))
+                               (take 9 (get-in @db [:projects :uploads]))))
+                      ;;update stored project data
+                      (storage/set-key! (str "projects-" api-key) (:projects @db))
+                      (swap! db assoc-in [:projects :selected] (:id project-dt))
+                      (secretary/dispatch! "/home")))
+        on-failure (fn [err]
+                   (let []
+                     (js/alert "Failed to upload a project: " (pr-str err))
+                     ))]
+    (if (or
+          (nil? (:project-id upload-dt))
+          (= "true" (:temp upload-dt)))
+      (api/create-from-file upload-dt api-key on-success on-failure)
+      (api/update-from-file (dissoc upload-dt :project-id)
+                            (:project-id upload-dt)
+                            api-key
+                            on-success
+                            on-failure))))

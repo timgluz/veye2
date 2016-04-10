@@ -9,5 +9,8 @@ veye2.utils.epoch = (function veye2$utils$epoch(){
 var current_dt = (new Date());
 return Math.floor((current_dt.getTime() / (1000)));
 });
+veye2.utils.time_ago = (function veye2$utils$time_ago(from_time){
+return moment(from_time).fromNow();
+});
 
 //# sourceMappingURL=utils.js.map
