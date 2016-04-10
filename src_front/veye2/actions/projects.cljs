@@ -40,6 +40,7 @@
                       (swap! db assoc-in [:projects :uploads]
                              (cons
                                (assoc upload-dt
+                                      :upload nil ;;storage cant de-serialize it
                                       :project-id (:id project-dt)
                                       :uploaded-at (current-ms))
                                (take 9 (get-in @db [:projects :uploads]))))
@@ -48,9 +49,7 @@
                       (swap! db assoc-in [:projects :selected] (:id project-dt))
                       (secretary/dispatch! "/home")))
         on-failure (fn [err]
-                   (let []
-                     (js/alert "Failed to upload a project: " (pr-str err))
-                     ))]
+                     (js/alert "Failed to upload a project: " (pr-str err)))]
     (if (or
           (nil? (:project-id upload-dt))
           (= "true" (:temp upload-dt)))

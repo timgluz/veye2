@@ -21,6 +21,7 @@
 (defonce db
   (atom {:session {:active? false
                    :api-key nil}
+         :users {} ; key : user-profile ; to keep auth-info for offline auth
          :projects {:selected nil
                     :items []
                     :details {}

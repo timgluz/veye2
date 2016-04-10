@@ -15,9 +15,14 @@
 (defn get-key
   "gets a value from localStorage and transforms it to CLJ object"
   [the-key]
-  (some-> the-storage
-          (.getItem (to-LS-key the-key))
-          read-string))
+  (try
+    (some-> the-storage
+            (.getItem (to-LS-key the-key))
+            read-string)
+    (catch js/Error e
+      (.error js/console
+              (str "Failed to access key: " the-key 
+                   " reason: " (.toString e))))))
 
 (defn set-key!
   "saves clojure object into localStorage"

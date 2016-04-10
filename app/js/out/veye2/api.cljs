@@ -28,6 +28,15 @@
         :handler success-fn
         :error-handler error-fn}))
 
+(defn fetch-me
+  [api-key on-success on-failure]
+  (GET (str api-url "/me")
+       {:params {:api_key api-key}
+        :response-format :json
+        :keywords? true
+        :handler on-success
+        :error-handler on-failure}))
+
 (defn ->form-data
   [upload-dt]
   (let [form-dt (js/FormData.)]

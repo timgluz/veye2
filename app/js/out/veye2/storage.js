@@ -26,11 +26,18 @@ return throw$("unsupported type for localStorage key");
  * gets a value from localStorage and transforms it to CLJ object
  */
 veye2.storage.get_key = (function veye2$storage$get_key(the_key){
-var G__36460 = veye2.storage.the_storage;
-var G__36460__$1 = (((G__36460 == null))?null:G__36460.getItem(veye2.storage.to_LS_key.call(null,the_key)));
-var G__36460__$2 = (((G__36460__$1 == null))?null:cljs.reader.read_string.call(null,G__36460__$1));
-return G__36460__$2;
-});
+try{var G__25442 = veye2.storage.the_storage;
+var G__25442__$1 = (((G__25442 == null))?null:G__25442.getItem(veye2.storage.to_LS_key.call(null,the_key)));
+var G__25442__$2 = (((G__25442__$1 == null))?null:cljs.reader.read_string.call(null,G__25442__$1));
+return G__25442__$2;
+}catch (e25441){if((e25441 instanceof Error)){
+var e = e25441;
+return console.error([cljs.core.str("Failed to access key: "),cljs.core.str(the_key),cljs.core.str(" reason: "),cljs.core.str(e.toString())].join(''));
+} else {
+throw e25441;
+
+}
+}});
 /**
  * saves clojure object into localStorage
  */

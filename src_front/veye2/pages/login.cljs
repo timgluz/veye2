@@ -2,26 +2,14 @@
   (:require [reagent.core :as r :refer [cursor atom]]
             [secretary.core :as secretary]
             [veye2.storage :as storage]
-            [veye2.actions.projects :refer [sync-projects!]]))
+            [veye2.actions.auth :refer [authorize! logout!]]))
 
 ;;TODO: add authorization - storage/get-key "session-<apikey>" == true or API call
 (defn login-form [db]
   (let [session-cur (cursor db [:session])
+        the-api-key (r/atom "")
         update-key (fn [ev]
-                    (let [api-key (-> ev .-target .-value)]
-                      (swap! session-cur assoc :api-key api-key)))
-        on-login (fn [ev]
-                  (swap! session-cur assoc :active? true)
-                  (if-let [cached-projects (storage/get-key
-                                             (str "projects-" (:api-key @session-cur)))]
-                    (do
-                      (js/alert "using cached projects")
-                      (swap! db assoc :projects cached-projects)
-                      (secretary/dispatch! "/home"))
-                    ;; when no saved projects for the APIkey 
-                    (do
-                      (sync-projects! db)
-                      (secretary/dispatch! "/syncing"))))]
+                    (reset! the-api-key (-> ev .-target .-value str)))]
     (fn []
       (if (:active? @session-cur)
         [:div
@@ -29,13 +17,22 @@
           [:button {:class "button is-primary"
                     :on-click #(secretary/dispatch! "/home")}
             [:i {:class "fa fa-diamond"}]
-            "Go to projects"]]
+            "Go to projects"]
+          [:button {:class "button is-danger"
+                    :on-click #(logout! db)}
+            [:i {:class "fa fa-sign-out"}]
+            "Close active session"]]
         ;;- when no active session
-        [:div {:class "login-form"}
-          [:input {:class "input"
+        [:div {:class "login-form control"}
+          [:input {:class (str "input "
+                               (when-not (empty? (:message @session-cur))
+                                "is-danger"))
                    :on-change update-key}]
-          [:button {:class "button is-primary"
-                    :on-click on-login }
+         (when-not (empty? (:message @session-cur)) 
+           [:span {:class "help is-danger"} (:message @session-cur)])
+          
+         [:button {:class "button is-primary"
+                    :on-click #(authorize! db @the-api-key) }
             [:i {:class "fa fa-diamond"}]
             "Login"]]))))
 

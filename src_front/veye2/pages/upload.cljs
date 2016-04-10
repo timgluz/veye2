@@ -10,7 +10,7 @@
         get-name (fn [upload-dt]
                    (str
                      (if (empty? (:name upload-dt))
-                       (.-name (:upload upload-dt))
+                       (str "temporary-project-" (rand-int 100)) 
                        (:name upload-dt))))]
     (fn []
       [:nav.panel
